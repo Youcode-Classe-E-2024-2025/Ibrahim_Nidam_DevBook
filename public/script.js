@@ -142,3 +142,15 @@ async function loanedBooks() {
 
     alert("Your Loaned Books : \n" + books.map(book => `${book.title} by ${book.author}`).join('\n'));
 }
+
+async function returnBook(bookId) {
+    const res = await fetch (`/books/return/${bookId}`, {
+        method : 'PUT',
+        headers : {authorization : `Bearer ${token}`}
+    });
+
+    const data = await res.json();
+    document.getElementById('msg').innerText = data.message || data.error;
+    loadBooks();
+}
+
