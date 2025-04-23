@@ -121,3 +121,8 @@ async function loanBook(bookId){
     document.getElementById('msg').innerText = data.message || data.error;
     loadBooks();
 }
+
+async function logout(){
+    localStorage.removeItem('token');
+    window.location.href = 'login.html';
+}
