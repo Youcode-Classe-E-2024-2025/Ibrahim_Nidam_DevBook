@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+
+</head>
+<body>
+    <h2>Book Dashboard</h2>
+    <button onclick="logout()">Logout</button>
+    <button onclick="loanedBooks()">Loaned Books</button>
+    <div id="bookList"></div>
+
+    <h3>Add Book</h3>
+    <form id="addBookForm">
+        <input type="text" id="title" placeholder="Title" required />
+        <input type="text" id="author" placeholder="Author" required />
+        <select id="categorySelect"></select>
+        <button type="submit">Add Book</button>
+    </form>
+
+    <p id="msg"></p>
+
+    <script src="script.js"></script>
+</body>
+</html>
