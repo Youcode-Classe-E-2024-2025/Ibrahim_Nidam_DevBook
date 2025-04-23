@@ -24,3 +24,31 @@ if(registerForm){
         registerForm.reset();
     })
 }
+
+const loginForm = document.getElementById('loginForm');
+
+if(loginForm){
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+
+        const res = await fetch('/auth/login', {
+            method : 'POST',
+            headers : {'content-type' : 'application/json'},
+            body : JSON.stringify({email, password})
+        });
+
+        const data = await res.json();
+
+        if(data.token){
+            localStorage.setItem('token', data.token);
+            window.location.href = 'index.html';
+        } else {
+            const loginMsg = document.getElementById('loginMsg');
+            loginMsg.innerText = data.error || 'login failed';
+        }
+    });
+}
+
