@@ -154,3 +154,19 @@ async function returnBook(bookId) {
     loadBooks();
 }
 
+async function loadCategories() {
+    const res = await fetch('/categories', {
+        headers : {authorization : `Bearer ${token}`}
+    });
+    const categories = await res.json();
+    const select = document.getElementById('categorySelect');
+    select.innerHTML = categories.map(cat =>
+        `<option value="${cat.id}">${cat.name}</option>`
+    ).join('');
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadBooks();
+    loadCategories(); 
+});
