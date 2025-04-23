@@ -126,3 +126,19 @@ async function logout(){
     localStorage.removeItem('token');
     window.location.href = 'login.html';
 }
+
+if(window.location.pathname.endsWith('index.html')){
+    if(!token){
+        window.location.href = 'login.html';
+    }
+}
+
+async function loanedBooks() {
+    const res = await fetch('/books/getloans', {
+        headers : {authorization : `Bearer ${token}`}
+    });
+
+    const books = await res.json();
+
+    alert("Your Loaned Books : \n" + books.map(book => `${book.title} by ${book.author}`).join('\n'));
+}
