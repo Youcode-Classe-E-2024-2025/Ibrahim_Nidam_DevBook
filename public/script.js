@@ -52,3 +52,36 @@ if(loginForm){
     });
 }
 
+const token = localStorage.getItem('token');
+const decoded = jwt_decode(token);
+const userId = decoded.userId;
+
+async function loadBooks() {
+    const res = await fetch('/books', {
+        headers : {authorization : `Bearer ${token}`}
+    });
+
+    const books = await res.json();
+
+    const listDiv = document.getElementById('bookList');
+
+    if (Array.isArray(books)) {
+        listDiv.innerHTML = books.map(book => {
+            let action = '';
+            if (book.is_loaned && book.loaned_by_user) {
+                action = ` <em>(Loaned)</em> <button onclick="returnBook(${book.id})">Return</button>`;
+            } else if (!book.is_loaned) {
+                action = `<button onclick="loanBook(${book.id})">Loan</button>`;
+            } else {
+                action = '<em>(Loaned)</em>';
+            }
+                return `
+                <div>
+                    <strong>${book.title}</strong> by ${book.author} ${action}
+                </div>
+                `;
+            }).join('');
+    } else {
+        listDiv.innerHTML = '<p>Error loading books</p>';
+    }
+}
