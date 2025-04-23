@@ -1,16 +1,25 @@
 const connection = require('../../config/db');
 
 class Book {
-    static getAll(callback) {
-        const sql = 'SELECT * FROM books';
-        connection.query(sql, callback);
+    static getAll(user_id, callback) {
+        const sql = `
+            SELECT b.*, 
+                    EXISTS (
+                        SELECT 1 FROM user_loans ul 
+                        WHERE ul.book_id = b.id AND ul.user_id = ?
+                    ) AS loaned_by_user
+            FROM books b
+        `;
+        connection.query(sql, [user_id], callback);
     }
+    
 
-    static add(title, author, user_id, callback) {
-        const sql = 'INSERT INTO books (title, author, user_id) VALUE (?,?,?)';
-        connection.query(sql, [title, author, user_id], callback);
+    static add(title, author, user_id, category_id, callback) {
+        const sql = 'INSERT INTO books (title, author, user_id, category_id) VALUE (?,?,?,?)';
+        connection.query(sql, [title, author, user_id, category_id], callback);
     }
-
+    
+    
     static delete(id, callback){
         const sql = 'DELETE FROM books where id = ?';
         connection.query(sql, [id], callback);
