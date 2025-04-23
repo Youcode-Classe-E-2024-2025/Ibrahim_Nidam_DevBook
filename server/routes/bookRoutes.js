@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const bookController = require('../controllers/bookController');
-const vevrifyToken = require('../middleware/authMiddleware');
+const verifyToken = require('../middleware/authMiddleware');
 
-router.get('/', vevrifyToken, bookController.getAllBooks);
-router.post('/add', vevrifyToken, bookController.addBook);
-router.put('/loan/:id', vevrifyToken, bookController.loanBook);
-router.put('/return/:id', vevrifyToken, bookController.returnBook);
-router.get('/getloans', vevrifyToken, bookController.LoanedBooks);
+router.get('/', verifyToken, bookController.getAllBooks);
+router.post('/add', verifyToken, bookController.addBook);
+router.put('/loan/:id', verifyToken, bookController.loanBook);
+router.put('/return/:id', verifyToken, bookController.returnBook);
+router.get('/getloans', verifyToken, bookController.LoanedBooks);
 
 module.exports = router;
