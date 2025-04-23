@@ -1,17 +1,18 @@
 const Book = require('../models/Book');
 
 exports.getAllBooks = (req, res) => {
-    Book.getAll((err, results) => {
+    const userId = req.userId;
+    Book.getAll(userId, (err, results) => {
         if (err) return res.status(500).json({ error: 'Data error' });
         res.json(results);
     });
 };
 
 exports.addBook = (req, res) => {
-    const { title, author } = req.body;
+    const { title, author,category_id } = req.body;
     const userId = req.userId;
     
-    Book.add(title, author, userId, (err, results) => {
+    Book.add(title, author, userId, category_id, (err, results) => {
         if (err) return res.status(500).json({ error: 'Could not add book' });
         res.json({ message: 'book added' });
     });
