@@ -1,19 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h2>Login</h2>
-    <form id="loginForm">
-        <input type="email" id="loginEmail" placeholder="email" required />
-        <input type="password" id="loginPassword" placeholder="Password" required />
-        <button type="submit">Login</button>
+<body class="min-h-screen flex items-center justify-center bg-gray-50">
+
+  <div class="w-full max-w-sm p-6 bg-white rounded-2xl shadow-md">
+    <h2 class="text-2xl font-bold mb-4 text-center text-gray-800">Login</h2>
+
+    <form id="loginForm" class="space-y-4">
+      <input
+        type="email"
+        id="loginEmail"
+        placeholder="Email Address"
+        required
+        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+      <input
+        type="password"
+        id="loginPassword"
+        placeholder="Password"
+        required
+        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+      <button
+        type="submit"
+        class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition duration-200"
+      >
+        Login
+      </button>
     </form>
 
-    <p id="loginMsg"></p>
+    <p id="loginMsg" class="mt-4 text-center text-sm text-gray-600"></p>
 
-    <script src="script.js"></script>
+    <div class="mt-4 text-center">
+      <button
+        onclick="window.location.href = 'register.html'"
+        class="text-blue-600 hover:underline text-sm"
+      >
+        Don't have an account? Register
+      </button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
