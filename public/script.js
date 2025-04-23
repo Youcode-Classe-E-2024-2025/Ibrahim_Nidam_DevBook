@@ -22,7 +22,7 @@ if(registerForm){
         const regMsg = document.getElementById('regMsg');
         regMsg.innerText = data.message || data.error;
         registerForm.reset();
-    })
+    });
 }
 
 const loginForm = document.getElementById('loginForm');
@@ -62,27 +62,34 @@ async function loadBooks() {
     });
 
     const books = await res.json();
-
     const listDiv = document.getElementById('bookList');
 
     if (Array.isArray(books)) {
         listDiv.innerHTML = books.map(book => {
             let action = '';
             if (book.is_loaned && book.loaned_by_user) {
-                action = ` <em>(Loaned)</em> <button onclick="returnBook(${book.id})">Return</button>`;
+                action = `<span class="text-yellow-600 font-semibold">(Loaned)</span> 
+                          <button onclick="returnBook(${book.id})" class="ml-2 text-sm text-red-600 hover:underline">Return</button>`;
             } else if (!book.is_loaned) {
-                action = `<button onclick="loanBook(${book.id})">Loan</button>`;
+                action = `<button onclick="loanBook(${book.id})" class="text-sm text-blue-600 hover:underline">Loan</button>`;
             } else {
-                action = '<em>(Loaned)</em>';
+                action = '<span class="text-gray-500 italic">(Loaned)</span>';
             }
-                return `
-                <div>
-                    <strong>${book.title}</strong> by ${book.author} ${action}
+
+            return `
+                <div class="py-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="text-lg font-medium text-gray-800">${book.title}</h4>
+                            <p class="text-sm text-gray-500">by ${book.author}</p>
+                        </div>
+                        <div class="text-right">${action}</div>
+                    </div>
                 </div>
-                `;
-            }).join('');
+            `;
+        }).join('');
     } else {
-        listDiv.innerHTML = '<p>Error loading books</p>';
+        listDiv.innerHTML = '<p class="text-red-600">Error loading books</p>';
     }
 }
 
@@ -106,7 +113,9 @@ if(addForm){
 
         const data = await res.json();
 
-        document.getElementById('msg').innerText = data.error || data.message;
+        const msg = document.getElementById('msg');
+        msg.className = "text-sm text-green-700 bg-green-100 px-4 py-2 rounded-md";
+        msg.innerText = data.error || data.message;
         loadBooks();
     });
 }
@@ -118,7 +127,9 @@ async function loanBook(bookId){
     });
 
     const data = await res.json();
-    document.getElementById('msg').innerText = data.message || data.error;
+    const msg = document.getElementById('msg');
+    msg.className = "text-sm text-blue-700 bg-blue-100 px-4 py-2 rounded-md";
+    msg.innerText = data.message || data.error;
     loadBooks();
 }
 
@@ -140,7 +151,12 @@ async function loanedBooks() {
 
     const books = await res.json();
 
-    alert("Your Loaned Books : \n" + books.map(book => `${book.title} by ${book.author}`).join('\n'));
+    const msgBox = document.getElementById('msg');
+    msgBox.className = "text-sm text-blue-700 bg-blue-100 px-4 py-2 rounded-md";
+    msgBox.innerHTML = `
+        <strong>Your Loaned Books:</strong><br>
+        ${books.map(book => `<div>📚 <span class="font-medium">${book.title}</span> by ${book.author}</div>`).join('')}
+    `;
 }
 
 async function returnBook(bookId) {
@@ -150,7 +166,9 @@ async function returnBook(bookId) {
     });
 
     const data = await res.json();
-    document.getElementById('msg').innerText = data.message || data.error;
+    const msg = document.getElementById('msg');
+    msg.className = "text-sm text-green-700 bg-green-100 px-4 py-2 rounded-md";
+    msg.innerText = data.message || data.error;
     loadBooks();
 }
 
@@ -164,7 +182,6 @@ async function loadCategories() {
         `<option value="${cat.id}">${cat.name}</option>`
     ).join('');
 }
-
 
 document.addEventListener('DOMContentLoaded', () => {
     loadBooks();
