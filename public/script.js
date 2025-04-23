@@ -85,3 +85,29 @@ async function loadBooks() {
         listDiv.innerHTML = '<p>Error loading books</p>';
     }
 }
+
+const addForm = document.getElementById('addBookForm');
+
+if(addForm){
+    addForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const title = document.getElementById('title').value;
+        const author = document.getElementById('author').value;
+        const category_id = document.getElementById('categorySelect').value;
+
+        const res = await fetch('/books/add', {
+            method : 'POST',
+            headers : {
+                    'content-type': 'application/json',
+                    authorization : `Bearer ${token}`
+            },
+            body: JSON.stringify({title, author, category_id})
+        });
+
+        const data = await res.json();
+
+        document.getElementById('msg').innerText = data.error || data.message;
+        loadBooks();
+    });
+}
+
