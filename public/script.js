@@ -111,3 +111,13 @@ if(addForm){
     });
 }
 
+async function loanBook(bookId){
+    const res = await fetch (`/books/loan/${bookId}`, {
+        method : 'PUT',
+        headers : {authorization : `Bearer ${token}`}
+    });
+
+    const data = await res.json();
+    document.getElementById('msg').innerText = data.message || data.error;
+    loadBooks();
+}
